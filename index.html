@@ -3,70 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator</title>
+<title>QR Code Generator -- Penelope</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fce4ec; /* Light pink background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
     text-align: center;
+    position: relative;
+  }
+  h1 {
+    color: #ff4081; /* Bright pink */
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+    color: #1a237e; /* Dark blue */
+    font-size: 14px;
+  }
+  input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #303f9f; /* Dark blue */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #1a237e; /* Dark blue */
+  }
+  input:focus {
+    outline: none;
+    border-color: #673ab7; /* Purple */
+  }
+  button {
+    background-color: #ff4081; /* Bright pink */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    font-size: 16px;
+  }
+  button:hover {
+    background-color: #f50057; /* Darker pink */
+  }
+  #qrcode-container {
+    margin-top: 20px;
+    display: none; /* Initially hidden */
   }
   #qrcode {
+    text-align: center;
+  }
+  .header {
     margin-top: 20px;
   }
 </style>
 </head>
 <body>
-  <h1>QR Code Generator</h1>
-  <div>
-    <label for="inputText">Text or Link for QR Code:</label>
-    <input type="text" id="inputText" placeholder="Enter text or link to generate QR code">
+  <div class="container">
+    <h1>QR Code Generator -- Penelope</h1>
+    <div>
+      <label for="inputText">Text or Link for QR Code:</label>
+      <input type="text" id="inputText" placeholder="Enter text or link to generate QR code">
+    </div>
+    <div>
+      <label for="qrColor">QR Code Color (Hex):</label>
+      <input type="text" id="qrColor" placeholder="Enter hex code for QR code color">
+    </div>
+    <div>
+      <label for="headerText">Header Text:</label>
+      <input type="text" id="headerText" placeholder="Enter text for header above QR code">
+    </div>
+    <div>
+      <label for="headerColor">Header Color (Hex):</label>
+      <input type="text" id="headerColor" placeholder="Enter hex code for header color">
+    </div>
+    <div>
+      <label for="headerSize">Header Font Size (px):</label>
+      <input type="number" id="headerSize" placeholder="Enter font size for header" min="12" step="1">
+    </div>
+    <div>
+      <label for="headerFont">Header Font:</label>
+      <input type="text" id="headerFont" placeholder="Enter font family for header">
+    </div>
+    <div>
+      <label for="backgroundColor">Background Color (Hex):</label>
+      <input type="text" id="backgroundColor" placeholder="Enter hex code for background color">
+    </div>
+    <button onclick="generateQRCode()">Generate QR Code</button>
+    <div id="qrcode-container">
+      <div id="qrcode"></div>
+      <div class="header"></div>
+    </div>
   </div>
-  <div>
-    <label for="qrColor">QR Code Color (Hex):</label>
-    <input type="text" id="qrColor" placeholder="Enter hex code for QR code color">
-  </div>
-  <div>
-    <label for="headerText">Header Text:</label>
-    <input type="text" id="headerText" placeholder="Enter text for header above QR code">
-  </div>
-  <div>
-    <label for="headerColor">Header Color (Hex):</label>
-    <input type="text" id="headerColor" placeholder="Enter hex code for header color">
-  </div>
-  <div>
-    <label for="headerSize">Header Font Size (px):</label>
-    <input type="number" id="headerSize" placeholder="Enter font size for header" min="12" step="1">
-  </div>
-  <div>
-    <label for="backgroundColor">Background Color (Hex):</label>
-    <input type="text" id="backgroundColor" placeholder="Enter hex code for background color">
-  </div>
-  <button onclick="generateQRCode()">Generate QR Code</button>
-  <div id="qrcode"></div>
 
   <script>
     function generateQRCode() {
       var qrText = document.getElementById("inputText").value;
-      var qrColor = document.getElementById("qrColor").value || "#000000"; // Default to black if no color is specified
+      var qrColor = document.getElementById("qrColor").value || "#000000";
       var headerText = document.getElementById("headerText").value;
-      var headerColor = document.getElementById("headerColor").value || "#000000"; // Default to black if no color is specified
-      var headerSize = document.getElementById("headerSize").value || "24"; // Default font size is 24px
-      var backgroundColor = document.getElementById("backgroundColor").value || "#ffffff"; // Default to white if no color is specified
+      var headerColor = document.getElementById("headerColor").value || "#000000";
+      var headerSize = document.getElementById("headerSize").value || "24";
+      var headerFont = document.getElementById("headerFont").value || "'Segoe UI', sans-serif"; // Default font
+      var backgroundColor = document.getElementById("backgroundColor").value || "#ffffff";
+
+      var qrCodeContainer = document.getElementById("qrcode-container");
+      qrCodeContainer.style.display = "block"; // Show the QR code container
 
       var qrCode = document.getElementById("qrcode");
-      qrCode.innerHTML = ''; // Clear previous content
+      qrCode.innerHTML = '';
 
-      // Create header
       if (headerText) {
         var header = document.createElement("div");
         header.textContent = headerText;
         header.style.color = headerColor;
         header.style.fontSize = headerSize + "px";
+        header.style.fontFamily = headerFont;
         qrCode.appendChild(header);
       }
 
-      // Create QR code image using Google Charts API
       var qrImage = document.createElement('img');
-      qrImage.src = 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=' + encodeURIComponent(qrText) + '&choe=UTF-8&chld=L|0&chf=bg,s,' + encodeURIComponent(backgroundColor.substr(1)) + '|qr,1,' + encodeURIComponent(qrColor.substr(1));
+      qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(qrText) + '&size=300x300&color=' + encodeURIComponent(qrColor.substr(1)) + '&bgcolor=' + encodeURIComponent(backgroundColor.substr(1)) + '&qzone=1';
+      qrImage.style.width = '200px'; // Adjust QR code size
       qrCode.appendChild(qrImage);
     }
   </script>
