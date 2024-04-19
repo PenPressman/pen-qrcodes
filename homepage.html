@@ -17,8 +17,8 @@
 <body>
   <h1>QR Code Generator</h1>
   <div>
-    <label for="inputText">Text for QR Code:</label>
-    <input type="text" id="inputText" placeholder="Enter text to generate QR code">
+    <label for="inputText">Text or Link for QR Code:</label>
+    <input type="text" id="inputText" placeholder="Enter text or link to generate QR code">
   </div>
   <div>
     <label for="qrColor">QR Code Color (Hex):</label>
@@ -64,25 +64,10 @@
         qrCode.appendChild(header);
       }
 
-      // Create QR Code using canvas
-      var qrCanvas = document.createElement('canvas');
-      var qrCanvasContext = qrCanvas.getContext('2d');
-
-      // Generate QR code using input text
-      var qr = new QRious({
-        value: qrText,
-        size: 200,
-        foreground: qrColor,
-        background: backgroundColor
-      });
-
-      qrCanvas.width = qr.size;
-      qrCanvas.height = qr.size;
-      qrCanvasContext.clearRect(0, 0, qr.size, qr.size);
-      qrCanvasContext.drawImage(qr._canvas, 0, 0, qr.size, qr.size);
-
-      // Append QR code canvas to the QR code div
-      qrCode.appendChild(qrCanvas);
+      // Create QR code image using Google Charts API
+      var qrImage = document.createElement('img');
+      qrImage.src = 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=' + encodeURIComponent(qrText) + '&choe=UTF-8&chld=L|0&chf=bg,s,' + encodeURIComponent(backgroundColor.substr(1)) + '|qr,1,' + encodeURIComponent(qrColor.substr(1));
+      qrCode.appendChild(qrImage);
     }
   </script>
 </body>
