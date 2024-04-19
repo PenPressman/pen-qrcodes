@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator -- Penelope</title>
+<title>QR Code Generatore</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #fce4ec; /* Light pink background */
     margin: 0;
-    padding: 0;
+    padding: 2;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     min-height: 100vh;
+             text-align: center;
   }
   .container {
     background-color: #fff;
@@ -22,17 +23,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 500px;
     width: 90%;
-    text-align: center;
+
     position: relative;
   }
   h1 {
     color: #ff4081; /* Bright pink */
     margin-bottom: 20px;
+         text-align: center;
   }
   label {
     font-weight: bold;
     color: #1a237e; /* Dark blue */
     font-size: 14px;
+       text-align: left;
   }
   input {
     width: calc(100% - 20px);
@@ -75,7 +78,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>QR Code Generator -- Penelope</h1>
+    <h1>QR Code Generator</h1>
+      <p>Penelope -- 2024</p>
     <div>
       <label for="inputText">Text or Link for QR Code:</label>
       <input type="text" id="inputText" placeholder="Enter text or link to generate QR code">
